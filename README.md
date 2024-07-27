@@ -25,6 +25,6 @@ We will walk you through every step, from writing your first smart contract to d
    - Git `fork` and `clone` command
    - `commit` and `push` code from your local device to Github
    - Create a `Pull Request` and merge with this repository
-2. Install and setup Rust on your local device
-3. Install and setup `pop-cli` on your local device
-4. Create a EVM-compatible parachain with `pop-cli`
+2. Install and setup Rust and `cargo contract` on your local device
+3. Install and setup ink! project
+4. Running a local Substrate contract node
