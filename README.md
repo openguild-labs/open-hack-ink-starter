@@ -278,7 +278,60 @@ Access the [UI for ink! contracts](https://ui.use.ink/?rpc=wss://rococo-contract
 
 ## 👉 Activity 4: Building a simple UI to interact with your smart contract {#session-4}
 
+Now that you have deployed your smart contract to the Rococo network, it's time to build a simple UI to interact with it. We will use the Next.js framework to create a React.js application that connects to the contract and allows users to add, view, and toggle todo items.
+
+### Create a new Next.js project
+
+Run the following command to create a new Next.js project:
+
+```bash
+npx create-next-app todo-app-ui
+cd todo-app-ui
+```
+
+### Install the required dependencies
+
+This workshop uses the [`dedot`](https://github.com/dedotdev/dedot), a delightful JavaScript/TypeScript client for Polkadot & Substrate. Install the library by running the following command:
+
+```bash
+pnpm add dedot @polkadot/extension-inject
+pnpm add -D @dedot/chaintypes
+```
+
+### Generate types for the smart contract
+
+`dedot` includes a tool to generate types for `ink!` smart contracts. Follow the steps below to generate types for your smart contract:
+
+- Copy 3 files `todo_app.contract`, `todo_app.wasm`, and `todo_app.json` from the `ink!` project to `artifacts` folder in the Next.js project.
+
+- At root directory of Next.js project, run the following command to generate types for the smart contract:
+
+```bash
+npx dedot typink -m ./artifacts/todo_app.json -o ./lib
+```
+
+This command generates TypeScript types for the smart contract based on the metadata file `todo_app.json`. The types will be saved in the `lib` folder.
+
+```bash
+├── lib
+├──── todo-app
+├────── index.d.ts
+├────── constructor-query.d.ts
+├────── constructor-tx.d.ts
+├────── events.d.ts
+├────── tx.d.ts
+├────── types.d.ts
+```
+
+This generated types will help you interact with the smart contract easily.
+
+### Connect frontend to the Subwallet
+
+### Get todo list from the smart contract
+
 ## Conclusion
+
+Congratulations! You have successfully completed the workshop and built your first Dapp on Polkadot. You have learned how to write ink! smart contracts, deploy them to the Rococo network, and build a simple UI to interact with them. We hope you enjoyed the workshop and found it informative. If you have any questions or feedback, feel free to reach out to us on Discord or GitHub.
 
 ---
 
@@ -295,13 +348,6 @@ View tickets and activities that you can contribute: [Community Activities 🖐�
 
 - **Contribute to our developer tools:** Get involved in the ongoing development and improvement of tools that aid developers in their projects. Whether it's through code contributions, bug reports, or feature suggestions, your involvement in enhancing these tools strengthens the foundation for innovation within OpenGuild and the broader Polkadot community.
 
-````
-
 ```
 
 ```
-
-```
-
-```
-````

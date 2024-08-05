@@ -67,6 +67,11 @@ mod todo_app {
             let caller = self.env().caller();
             Some(self.todos.get((caller, id)).unwrap())
         }
+
+        #[ink(message)]
+        pub fn get_counter(&self, account_id: AccountId) -> u64 {
+            self.counter.get(account_id).unwrap_or_default()
+        }
     }
 
     /// Unit tests in Rust are normally defined within such a `#[cfg(test)]`
@@ -88,7 +93,7 @@ mod todo_app {
             ink::env::test::set_caller::<ink::env::DefaultEnvironment>(accounts.alice);
 
             let todo_app = TodoApp::default();
-            assert_eq!(todo_app.counter.get(&accounts.alice).unwrap_or_default(), 0);
+            assert_eq!(todo_app.get_counter(accounts.alice), 0);
         }
 
         #[ink::test]
@@ -104,7 +109,7 @@ mod todo_app {
 
             todo_app.add_todo("Go shoping with crush".to_string());
 
-            assert_eq!(todo_app.counter.get(&accounts.alice).unwrap_or_default(), 1);
+            assert_eq!(todo_app.get_counter(accounts.alice), 1);
 
             let todo = todo_app.todos.get(&(accounts.alice, 0)).unwrap();
 
