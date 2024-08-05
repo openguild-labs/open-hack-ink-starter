@@ -65,6 +65,21 @@ We will walk you through every step, from writing your first smart contract to d
 
 - Install Rust: [Rust Installation Guide](https://www.rust-lang.org/tools/install)
 
+If you already have Rust installed, update it to the latest version by running the following command:
+
+```bash
+rustup update
+rustup component add rust-src
+rustup target add wasm32-unknown-unknown --toolchain nightly
+```
+
+- Install `cargo-contract`
+
+```bash
+rustup component add rust-src
+cargo install --force --locked cargo-contract
+```
+
 ## 👉 Activity 2: Writing your first ink! smart contract {#session-2}
 
 ## 👉 Activity 3: Deploying your smart contract to the Rococo network {#session-3}
