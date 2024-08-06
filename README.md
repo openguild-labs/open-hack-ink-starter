@@ -327,9 +327,136 @@ This command generates TypeScript types for the smart contract based on the meta
 
 This generated types will help you interact with the smart contract easily.
 
-### Connect frontend to the Subwallet
+### Connect frontend to the blockchain
 
-### Get todo list from the smart contract
+To connect the frontend to the SubWallet, you need to add the following code:
+
+```typescript
+const injectedWindow = window as Window & InjectedWindow;
+
+// Get subwallet-js injected provider to connect with SubWallet
+const provider: InjectedWindowProvider =
+  injectedWindow.injectedWeb3["subwallet-js"];
+
+const injected: Injected = await provider.enable!("Todo Dapp");
+```
+
+Init the `dedot` library with the injected provider:
+
+```typescript
+export const ROCOCO_CONTRACT = {
+  name: "rococo-contracts",
+  endpoint: "wss://rococo-contracts-rpc.polkadot.io",
+  decimals: 12,
+  prefix: 42,
+  symbol: "ROC",
+};
+
+const wsProvider = new WsProvider(ROCOCO_CONTRACT.endpoint);
+const client = new DedotClient(wsProvider);
+await client.connect();
+```
+
+Initialize the contract instance:
+
+```typescript
+import { Contract, ContractMetadata } from "dedot/contracts";
+import { TodoAppContractApi } from "@/lib/todo-app";
+
+const contract = new Contract<TodoAppContractApi>(
+  dedotClient,
+  todoMetadata as ContractMetadata,
+  process.env.NEXT_PUBLIC_CONTRACT_ADDRESSS as string
+);
+```
+
+- `TodoAppContractApi` is the generated types for the smart contract what we generated in the previous step.
+- `todoMetadata` is the metadata of the smart contract. You can import it from `todo_app.json` file in the `artifacts` folder.
+- `NEXT_PUBLIC_CONTRACT_ADDRESSS` is the contract address that you deployed to the Rococo network.
+
+With the contract instance initialized, you can now interact with the smart contract using the provided API.
+
+### Interact with the smart contract
+
+Query `getCounter` function from the smart contract to get the current counter value, what is the number of todos that user added.
+
+```typescript
+const result = await contract?.query.getCounter(account.address, {
+  caller: account.address,
+});
+```
+
+Query `getTodo` function from the smart contract to get the todo item by its ID.
+
+```typescript
+const result = await contract?.query.getTodo(id, {
+  caller: account.address,
+});
+```
+
+Call `toggleTodo` function from the smart contract to toggle the completion status of a todo item.
+
+```typescript
+const { raw } = await contract.query.toggleTodo(id, {
+  caller: account.address,
+});
+
+contract.tx
+  .toggleTodo(id, {
+    gasLimit: raw.gasRequired,
+  })
+  .signAndSend(
+    account.address,
+    {
+      signer: signer,
+    },
+    async ({ status, events }) => {
+      if (
+        status.type === "BestChainBlockIncluded" ||
+        status.type === "Finalized"
+      ) {
+        resolve(id.toString());
+      }
+    }
+  );
+```
+
+At first, we will call query function to get the gas required for the transaction. Then, we will use the gas required from the query result to sign and send the transaction.
+
+To create a new todo item, call the `addTodo` function from the smart contract. This function takes the content of the todo item as a parameter.
+
+```typescript
+const { raw } = await contract.query.addTodo(data.content, {
+  caller: account.address,
+});
+
+contract.tx
+  .addTodo(data.content, {
+    gasLimit: raw.gasRequired,
+  })
+  .signAndSend(
+    account.address,
+    {
+      signer: signer,
+    },
+    async ({ status, events }) => {
+      if (
+        status.type === "BestChainBlockIncluded" ||
+        status.type === "Finalized"
+      ) {
+        resolve(data);
+      }
+    }
+  );
+```
+
+Similar to the `toggleTodo` function, we first call the query function to get the gas required for the transaction. Then, we use the gas required from the query result to sign and send the transaction.
+
+To make a transaction, you need to sign the transaction with the user's account. You can use the `signer` object to sign the transaction. The `signer` object is created using the `injected` object obtained from the injected provider.
+
+```typescript
+const signer = injected?.signer;
+```
 
 ## Conclusion
 
@@ -349,7 +476,3 @@ View tickets and activities that you can contribute: [Community Activities üñêÔ
 - **Propose project ideas:** Your creativity and innovation are welcomed at OpenGuild. Propose project ideas that align with the goals of our community. Whether it's a new application, a tool, or a solution addressing a specific challenge in the Polkadot ecosystem, your ideas can spark exciting collaborations.
 
 - **Contribute to our developer tools:** Get involved in the ongoing development and improvement of tools that aid developers in their projects. Whether it's through code contributions, bug reports, or feature suggestions, your involvement in enhancing these tools strengthens the foundation for innovation within OpenGuild and the broader Polkadot community.
-
-```
-
-```
