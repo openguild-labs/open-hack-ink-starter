@@ -462,6 +462,12 @@ const signer = injected?.signer;
 
 Congratulations! You have successfully completed the workshop and built your first Dapp on Polkadot. You have learned how to write `ink!` smart contracts, deploy them to the Rococo network, and build a simple UI to interact with them. We hope you enjoyed the workshop and found it informative. If you have any questions or feedback, feel free to reach out to us on Discord or GitHub.
 
+You can find the complete code for the smart contract and UI in this repository. Feel free to explore the code, experiment with it, and build on top of it. We encourage you to continue learning and building on Polkadot and contribute to the OpenGuild community.
+
+- [ink! smart contract](/contracts/todo_app/)
+- [Nextjs UI](/frontend/todo-app-ui/)
+- Demo: https://open-hack-ink-starter.vercel.app/
+
 ---
 
 # 🙌 How to contribute to the community?
