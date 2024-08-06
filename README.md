@@ -80,6 +80,22 @@ rustup component add rust-src
 cargo install --force --locked cargo-contract
 ```
 
+To test the smart contract, at this point, we will use [`Pop Platform`](https://onpop.io/) - a developer platform for Web3 solutions on Polkadot.
+
+> Why Pop?
+>
+> Pop consists of two main products: Pop CLI and Pop Network.
+>
+> - Pop CLI is a command-line interface for quickly creating, building, testing, and deploying a Polkadot solution.
+>
+> - Pop Network is a Polkadot smart contract platform. Developers can write smart contracts and use the DOT token to deploy their smart contracts to Pop Network.
+
+To install Pop CLI, run the following command:
+
+```bash
+cargo install --force --locked pop-cli
+```
+
 ## 👉 Activity 2: Writing your first ink! smart contract
 
 We will create a simple Todo smart contract use ink!. The smart contract will allow users to add, view, and toggle the status of todos.
@@ -208,6 +224,164 @@ The `toggle_todo` function allows users to toggle the completion status of a tod
 - Update the todo item in the `todos` mapping with the modified completion status using `self.todos.insert((caller, id), &todo)`.
 
 - Return the new completion status of the todo item.
+
+### Implement the get_counter function
+
+For now, we need a function to get the number of todos that user added. This function will be used in the UI to loop through all todos of a user.
+
+```rust
+#[ink(message)]
+pub fn get_counter(&self, account_id: AccountId) -> u64 {
+    self.counter.get(account_id).unwrap_or_default()
+}
+```
+
+This function takes an `account_id` parameter representing the account ID of the user and returns the number of todos that the user has added.
+
+### Test the smart contract
+
+That's it! You have successfully written `TodoApp` smart contract using `ink!`. Now, let's test the smart contract using the `pop-cli` tool. Navigate to the root directory of the `ink!` project and follow the steps below:
+
+- Build the smart contract:
+
+```bash
+pop build
+```
+
+- Run unit tests:
+
+```bash
+pop test contract
+```
+
+If the tests pass, you will see the following output:
+
+```bash
+running 4 tests
+test todo_app::tests::init_works ... ok
+test todo_app::tests::get_todo_works ... ok
+test todo_app::tests::add_todo_works ... ok
+test todo_app::tests::toggle_todo_works ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+```
+
+- Deploy the smart contract to the local Pop Network:
+
+```bash
+pop up contract --constructor new --suri //Alice --dry-run
+pop up contract --constructor new --suri //Alice
+```
+
+With `new` is name of the constructor function, `--suri //Alice` is the account that will deploy the contract. At the first line, we use `--dry-run` to simulate the deployment process. If everything is fine, we will deploy the contract by removing `--dry-run` flag. You can read more at [here](https://learn.onpop.io/v/contracts/pop-cli/up).
+
+If the deployment is successful, you will see the following output:
+
+```bash
+┌   Pop CLI : Deploy a smart contract
+│
+◇  Gas limit estimate: Weight { ref_time: 144421911, proof_size: 16689 }
+│
+◇  Contract deployed and instantiated: The Contract Address is "5H8pGqbNRxK2uwALsPmXSveBRx98CVEansSLsEJ7JQf69dw8"
+│
+└  🚀 Deployment complete
+```
+
+The contract is now deployed to the local Pop Network, and you can interact with it using the Pop CLI.
+
+- Make a `add_todo` transaction:
+
+```bash
+pop call contract --contract 5H8pGqbNRxK2uwALsPmXSveBRx98CVEansSLsEJ7JQf69dw8 --message add_todo --args \"'Go shoping with crush'\" --suri //Alice -x
+```
+
+If the transaction is successful, you will see the following output:
+
+```bash
+┌   Pop CLI : Calling a contract
+│
+◐  Doing a dry run to estimate the gas...                                                                               ⚙  Gas limit: Weight { ref_time: 679657382, proof_size: 23685 }
+│
+◐  Calling the contract...
+⚙        Events
+│         Event Balances ➜ Withdraw
+│           who: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
+│           amount: 1.69584962mUNIT
+│         Event Contracts ➜ Called
+│           caller: Signed(5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY)
+│           contract: 5H8pGqbNRxK2uwALsPmXSveBRx98CVEansSLsEJ7JQf69dw8
+│         Event Contracts ➜ StorageDepositTransferredAndHeld
+│           from: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
+│           to: 5H8pGqbNRxK2uwALsPmXSveBRx98CVEansSLsEJ7JQf69dw8
+│           amount: 200.195mUNIT
+│         Event Balances ➜ Deposit
+│           who: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
+│           amount: 9.178845μUNIT
+│         Event TransactionPayment ➜ TransactionFeePaid
+│           who: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
+│           actual_fee: 1.686670775mUNIT
+│           tip: 0UNIT
+│         Event System ➜ ExtrinsicSuccess
+│           dispatch_info: DispatchInfo { weight: Weight { ref_time: 1686874340, proof_size: 16590 }, class: Normal, pays_fee: Yes }
+│
+└  Call completed successfully!
+```
+
+- Make a `get_todo` query:
+
+```bash
+pop call contract --contract 5H8pGqbNRxK2uwALsPmXSveBRx98CVEansSLsEJ7JQf69dw8 --message get_todo --args "0" --suri //Alice
+```
+
+The query will return the todo item with ID 0:
+
+```bash
+┌   Pop CLI : Calling a contract
+│
+◐  Calling the contract...                                                                                              ⚙  Result: Ok(Some(Todo { id: 0, content: Go shoping with crush, completed: false }))
+│
+▲  Your call has not been executed.
+│
+▲  To submit the transaction and execute the call on chain, add -x/--execute flag to the command.
+│
+└  Call completed successfully!
+```
+
+- Make a transaction to toggle the completion status of the todo item:
+
+```bash
+pop call contract --contract 5H8pGqbNRxK2uwALsPmXSveBRx98CVEansSLsEJ7JQf69dw8 --message toggle_todo --args "0" --suri //Alice -x
+```
+
+Transaction successful will display the following output like this:
+
+```bash
+┌   Pop CLI : Calling a contract
+│
+◐  Doing a dry run to estimate the gas...                                                                               ⚙  Gas limit: Weight { ref_time: 549581502, proof_size: 23454 }
+│
+◐  Calling the contract...
+⚙        Events
+│         Event Balances ➜ Withdraw
+│           who: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
+│           amount: 1.565763784mUNIT
+│         Event Contracts ➜ Called
+│           caller: Signed(5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY)
+│           contract: 5H8pGqbNRxK2uwALsPmXSveBRx98CVEansSLsEJ7JQf69dw8
+│         Event Balances ➜ Deposit
+│           who: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
+│           amount: 9.029515μUNIT
+│         Event TransactionPayment ➜ TransactionFeePaid
+│           who: 5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY
+│           actual_fee: 1.556734269mUNIT
+│           tip: 0UNIT
+│         Event System ➜ ExtrinsicSuccess
+│           dispatch_info: DispatchInfo { weight: Weight { ref_time: 1556947641, proof_size: 16359 }, class: Normal, pays_fee: Yes }
+│
+└  Call completed successfully!
+```
+
+Now, you have successfully tested the smart contract using the `Pop CLI` tool. You can interact with the smart contract by making transactions and queries to add, view, and toggle todo items. That's great!
 
 ### 🙋 Challenge: Improve the contract
 
