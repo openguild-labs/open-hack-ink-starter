@@ -117,6 +117,7 @@ const ContractProvider: React.FC<
     if (autoConnect) {
       connectToSubWallet();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [InitClient]);
 
   return (
