@@ -3,7 +3,7 @@ import React from "react";
 import {
   Table,
   TableBody,
-  TableCell,
+  TableCaption,
   TableHead,
   TableHeader,
   TableRow,
@@ -11,9 +11,8 @@ import {
 import { useContractProvider } from "./ContractProvider";
 import { useQuery } from "@tanstack/react-query";
 import { InjectedAccount } from "@polkadot/extension-inject/types";
-import { AccountId32Like } from "dedot/codecs";
-import { Card } from "./ui/card";
 import TodoItem from "./TodoItem";
+import AddTodoButton from "./AddTodoButton";
 
 type Props = {};
 
@@ -33,10 +32,8 @@ const TodoList: React.FC<Props> = ({}) => {
 
       return result?.data || 0;
     },
-    enabled: !!account,
+    enabled: !!account && !!contract,
   });
-
-  console.log(counter);
 
   React.useEffect(() => {
     getActiveAccount?.().then((acc) => {
@@ -46,11 +43,26 @@ const TodoList: React.FC<Props> = ({}) => {
 
   if (!isConnected) return null;
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4">
-      {counter &&
-        Array.from({ length: Number(counter) }).map((_, i) => (
-          <TodoItem key={i} id={BigInt(i)} />
-        ))}
+    <div>
+      <div className="w-full flex justify-end items-center">
+        <AddTodoButton />
+      </div>
+      <Table>
+        <TableCaption>A list of your todos.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">ID</TableHead>
+            <TableHead>Content</TableHead>
+            <TableHead className="text-right">Status</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {counter &&
+            Array.from({ length: Number(counter) }).map((_, i) => (
+              <TodoItem key={i} id={BigInt(i)} />
+            ))}
+        </TableBody>
+      </Table>
     </div>
   );
 };

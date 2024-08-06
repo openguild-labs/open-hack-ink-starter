@@ -215,6 +215,8 @@ The `toggle_todo` function allows users to toggle the completion status of a tod
 
 - Currently, the contract only allows adding and toggle todo status. There are no ways to get list of todos of a user. Implement a new function to get all todos of a user.
 
+- Add a new function to edit the content of a todo item.
+
 ## 👉 Activity 3: Deploying your smart contract to the Rococo network {#session-3}
 
 At this point, you have successfully written your first ink! smart contract. The next step is to deploy it to the Rococo network, a Polkadot testnet, and interact with it using a UI at [here](https://ui.use.ink/?rpc=wss://rococo-contracts-rpc.polkadot.io).
