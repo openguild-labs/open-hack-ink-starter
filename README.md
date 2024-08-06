@@ -460,7 +460,7 @@ const signer = injected?.signer;
 
 ## Conclusion
 
-Congratulations! You have successfully completed the workshop and built your first Dapp on Polkadot. You have learned how to write ink! smart contracts, deploy them to the Rococo network, and build a simple UI to interact with them. We hope you enjoyed the workshop and found it informative. If you have any questions or feedback, feel free to reach out to us on Discord or GitHub.
+Congratulations! You have successfully completed the workshop and built your first Dapp on Polkadot. You have learned how to write `ink!` smart contracts, deploy them to the Rococo network, and build a simple UI to interact with them. We hope you enjoyed the workshop and found it informative. If you have any questions or feedback, feel free to reach out to us on Discord or GitHub.
 
 ---
 
