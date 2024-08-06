@@ -42,12 +42,12 @@ We will walk you through every step, from writing your first smart contract to d
 
 ## Workshop Agenda
 
-- **Activity 1:** [Introduction to ink! and Setting up local development environment](#session-1)
-- **Activity 2:** [Writing your first ink! smart contract](#session-2)
-- **Activity 3:** [Deploying your smart contract to the Rococo network](#session-3)
-- **Activity 4:** [Building a simple UI to interact with your smart contract](#session-4)
+- **Activity 1:** [Introduction to ink! and Setting up local development environment](#-activity-1-introduction-to-ink-and-polkadot-session-1)
+- **Activity 2:** [Writing your first ink! smart contract](#-activity-2-writing-your-first-ink-smart-contract-session-2)
+- **Activity 3:** [Deploying your smart contract to the Rococo network](#-activity-3-deploying-your-smart-contract-to-the-rococo-network-session-3)
+- **Activity 4:** [Building a simple UI to interact with your smart contract](#-activity-4-building-a-simple-ui-to-interact-with-your-smart-contract-session-4)
 
-## 👉 Activity 1: Introduction to ink! and Polkadot {#session-1}
+## 👉 Activity 1: Introduction to ink! and Setting up local development environment
 
 ### What is ink!?
 
@@ -80,7 +80,7 @@ rustup component add rust-src
 cargo install --force --locked cargo-contract
 ```
 
-## 👉 Activity 2: Writing your first ink! smart contract {#session-2}
+## 👉 Activity 2: Writing your first ink! smart contract
 
 We will create a simple Todo smart contract use ink!. The smart contract will allow users to add, view, and toggle the status of todos.
 
@@ -217,7 +217,7 @@ The `toggle_todo` function allows users to toggle the completion status of a tod
 
 - Add a new function to edit the content of a todo item.
 
-## 👉 Activity 3: Deploying your smart contract to the Rococo network {#session-3}
+## 👉 Activity 3: Deploying your smart contract to the Rococo network
 
 At this point, you have successfully written your first ink! smart contract. The next step is to deploy it to the Rococo network, a Polkadot testnet, and interact with it using a UI at [here](https://ui.use.ink/?rpc=wss://rococo-contracts-rpc.polkadot.io).
 
@@ -278,7 +278,7 @@ Access the [UI for ink! contracts](https://ui.use.ink/?rpc=wss://rococo-contract
 
 - Save the contract address to use it in the next step.
 
-## 👉 Activity 4: Building a simple UI to interact with your smart contract {#session-4}
+## 👉 Activity 4: Building a simple UI to interact with your smart contract
 
 Now that you have deployed your smart contract to the Rococo network, it's time to build a simple UI to interact with it. We will use the Next.js framework to create a React.js application that connects to the contract and allows users to add, view, and toggle todo items.
 
