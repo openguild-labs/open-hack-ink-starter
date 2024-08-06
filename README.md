@@ -42,10 +42,10 @@ We will walk you through every step, from writing your first smart contract to d
 
 ## Workshop Agenda
 
-- **Activity 1:** [Introduction to ink! and Setting up local development environment](#-activity-1-introduction-to-ink-and-polkadot-session-1)
-- **Activity 2:** [Writing your first ink! smart contract](#-activity-2-writing-your-first-ink-smart-contract-session-2)
-- **Activity 3:** [Deploying your smart contract to the Rococo network](#-activity-3-deploying-your-smart-contract-to-the-rococo-network-session-3)
-- **Activity 4:** [Building a simple UI to interact with your smart contract](#-activity-4-building-a-simple-ui-to-interact-with-your-smart-contract-session-4)
+- **Activity 1:** [Introduction to ink! and Setting up local development environment](#-activity-1-introduction-to-ink-and-polkadot)
+- **Activity 2:** [Writing your first ink! smart contract](#-activity-2-writing-your-first-ink-smart-contract)
+- **Activity 3:** [Deploying your smart contract to the Rococo network](#-activity-3-deploying-your-smart-contract-to-the-rococo-network)
+- **Activity 4:** [Building a simple UI to interact with your smart contract](#-activity-4-building-a-simple-ui-to-interact-with-your-smart-contract)
 
 ## 👉 Activity 1: Introduction to ink! and Setting up local development environment
 
