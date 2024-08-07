@@ -1,5 +1,7 @@
 # OpenHack ink! Starter ✒️
 
+![image](https://github.com/user-attachments/assets/8c46c9df-6bd5-44a6-972e-b33d49c7b315)
+
 Getting started with ink! smart contract development. This repository is made by OpenGuild community to educate newcomers about ink! smart contract development.
 
 ## What is `ink!`?
